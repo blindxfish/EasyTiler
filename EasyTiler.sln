@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyTiler", "EasyTiler.csproj", "{9A87E724-64DC-4840-A6E0-96D76C5B095A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A87E724-64DC-4840-A6E0-96D76C5B095A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A87E724-64DC-4840-A6E0-96D76C5B095A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A87E724-64DC-4840-A6E0-96D76C5B095A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A87E724-64DC-4840-A6E0-96D76C5B095A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E1A24ED2-4B4B-4B39-B316-131725728F4B}
+	EndGlobalSection
+EndGlobal
