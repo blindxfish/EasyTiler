@@ -11,6 +11,7 @@
             <ColumnDefinition Width="187*"/>
             <ColumnDefinition Width="213*"/>
         </Grid.ColumnDefinitions>
+        <Slider Name="RotationSlider" Minimum="0" Maximum="360" ValueChanged="RotationSlider_ValueChanged" />
         <DockPanel LastChildFill="True" Margin="10,40,10,33">
             <Image x:Name="SourceImage" Stretch="Uniform" />
         </DockPanel>
