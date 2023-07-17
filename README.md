@@ -2,6 +2,8 @@
 
 EasyTiler is a simple tool that allows you to create tiled images with rotation and selection capabilities. 🖼️🔄🔍
 
+I made the tool for myself, so I could create seamles tilemaps from google earth images to use in my unity game.
+
 ## Installation
 
 1. Clone the repository:
