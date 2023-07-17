@@ -7,4 +7,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="m_blindxfish_minimalistic_icon_squares_3_squares_02150e8d-f490-4f02-8f42-d67456605edb.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="m_blindxfish_minimalistic_icon_squares_3_squares_02150e8d-f490-4f02-8f42-d67456605edb.png" />
+  </ItemGroup>
+
 </Project>

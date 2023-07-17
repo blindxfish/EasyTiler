@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,8 +33,9 @@ namespace EasyTiler
         };
 
         public TransformGroup transformGroup = new TransformGroup();
-      //  RotateTransform imageRotateTransform = new RotateTransform();
-     
+        //  RotateTransform imageRotateTransform = new RotateTransform();
+
+        WriteableBitmap tileForSave;
           
         Point startPoint, endPoint;
 
@@ -205,6 +207,35 @@ namespace EasyTiler
           UpdateTiledImage();
         }
 
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (tileForSave !=null)
+            {
+
+                // Now tiledImage contains the tiled image with the selected tile.
+
+                // Save the selected tile to an image file
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "PNG Image (*.png)|*.png",
+                    FileName = "tile.png"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    using (FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                    {
+                        PngBitmapEncoder encoder = new PngBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(tileForSave));
+                        encoder.Save(fileStream);
+                    }
+                }
+
+            }
+        }
+
+
+
         private void UpdateTiledImage()
         {
             if (rect != null && SourceImage != null)
@@ -238,12 +269,16 @@ namespace EasyTiler
                     var selectedImage = new WriteableBitmap(width, height, loadedImage.DpiX, loadedImage.DpiY, loadedImage.Format, null);
                     selectedImage.WritePixels(new Int32Rect(0, 0, width, height), pixelData, stride, 0);
 
+                    //pass the tile to the temp
+                    tileForSave = selectedImage;
+
                     // Calculate how many tiles we need in each direction.
                     var tilesX = loadedImage.PixelWidth / width;
                     var tilesY = loadedImage.PixelHeight / height;
 
                     var tiledImage = new WriteableBitmap(loadedImage.PixelWidth, loadedImage.PixelHeight, loadedImage.DpiX, loadedImage.DpiY, loadedImage.Format, null);
 
+                    
                     for (var tileY = 0; tileY < tilesY; tileY++)
                     {
                         for (var tileX = 0; tileX < tilesX; tileX++)
