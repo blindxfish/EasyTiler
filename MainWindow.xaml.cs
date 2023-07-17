@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -238,7 +239,7 @@ namespace EasyTiler
 
         private void UpdateTiledImage()
         {
-            if (rect != null && SourceImage != null)
+            if (rect != null && SourceImage != null && loadedImage != null)
             {
                 // Calculate the center of the selection
                 double centerX = Canvas.GetLeft(rect) + rect.Width / 2;
@@ -264,8 +265,13 @@ namespace EasyTiler
                 {
                     // Capture the rendered image from the SourceImage
                     BitmapSource rotatedImage = CaptureElement(SourceImage);
-                    rotatedImage.CopyPixels(rect2, pixelData, stride, 0);
+                    try{
 
+                        rotatedImage.CopyPixels(rect2, pixelData, stride, 0);
+                    }catch(Exception e)
+                    {
+                        return;
+                    }
                     var selectedImage = new WriteableBitmap(width, height, loadedImage.DpiX, loadedImage.DpiY, loadedImage.Format, null);
                     selectedImage.WritePixels(new Int32Rect(0, 0, width, height), pixelData, stride, 0);
 
@@ -293,7 +299,8 @@ namespace EasyTiler
 
                     // Now tiledImage contains the tiled image.
                     TiledImage.Source = tiledImage;
-                }
+
+                    }
             }
         }
 
