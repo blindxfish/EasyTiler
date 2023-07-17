@@ -7,7 +7,7 @@ I made the tool for myself, so I could create seamles tilemaps from google earth
 ## Installation
 
 You can download the buid.rar which contains the ready tool OR clone the repository:
-   ```bash
+   
    git clone https://github.com/your-username/EasyTiler.git
 Open the solution file EasyTiler.sln in your preferred C# IDE.
 
