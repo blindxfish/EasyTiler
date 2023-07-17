@@ -5,31 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyTiler"
         mc:Ignorable="d"
-        Title="EasyTiler" Height="450" Width="800" Icon="/m_blindxfish_minimalistic_icon_squares_3_squares_02150e8d-f490-4f02-8f42-d67456605edb.png">
+        Title="EasyTiler v1.0" Height="450" Width="800" Icon="/m_blindxfish_minimalistic_icon_squares_3_squares_02150e8d-f490-4f02-8f42-d67456605edb.png">
     <Grid Margin="0,0,-419,-261" Background="#FFF5F8FF">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="187*"/>
             <ColumnDefinition Width="213*"/>
         </Grid.ColumnDefinitions>
         <Slider Name="RotationSlider" Minimum="0" Maximum="360" ValueChanged="RotationSlider_ValueChanged" Margin="247,15,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="245" />
-        <DockPanel LastChildFill="True" Margin="10,40,10,33">
+        <DockPanel LastChildFill="True" Margin="10,40,10,33" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Image x:Name="SourceImage" Stretch="Uniform"  RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <RotateTransform x:Name="imageRotateTransform" Angle="0"/>
                 </Image.RenderTransform>
             </Image>
+           
         </DockPanel>
-        <DockPanel LastChildFill="True" Margin="10,40,10,33" Background="#FFE9EAEE" Grid.Column="1">
+        <Canvas x:Name="ImageCanvas" Margin="10,46,10,33" MouseDown="ImageCanvas_MouseDown" MouseMove="ImageCanvas_MouseMove" MouseUp="ImageCanvas_MouseUp" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1">
+            <Canvas.Background>
+                <SolidColorBrush Color="Black" Opacity="0"/>
+            </Canvas.Background>
+        </Canvas>
+        <DockPanel LastChildFill="True" Margin="10,46,10,33" Background="#FFE9EAEE" Grid.Column="1">
             <Image x:Name="TiledImage" Stretch="Uniform" />
         </DockPanel>
         <Button Content="Insert Picture" HorizontalAlignment="Left" Height="20" Margin="10,15,0,0" VerticalAlignment="Top" Width="83" Click="Button_Click" Background="#FFC6FBFF"/>
         <Button HorizontalAlignment="Left" Height="20" Margin="98,15,0,0" VerticalAlignment="Top" Width="55" Content="Deselect" Click="Button_Click_1"/>
         <Button Content="Save Tile" HorizontalAlignment="Left" Margin="513,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,1" Click="Button_Click_2" Grid.ColumnSpan="2" Width="121" Background="#FFA7FCD5"/>
-        <Canvas x:Name="ImageCanvas" Margin="10,46,10,40" MouseDown="ImageCanvas_MouseDown" MouseMove="ImageCanvas_MouseMove" MouseUp="ImageCanvas_MouseUp">
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity="0"/>
-            </Canvas.Background>
-        </Canvas>
+        
         <Label Content="Rotate" HorizontalAlignment="Left" Margin="188,10,0,0" VerticalAlignment="Top"/>
-    </Grid>
+       </Grid>
 </Window>

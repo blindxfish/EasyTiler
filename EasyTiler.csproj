@@ -5,10 +5,15 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>picture (1).ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="m_blindxfish_minimalistic_icon_squares_3_squares_02150e8d-f490-4f02-8f42-d67456605edb.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="picture (1).ico" />
   </ItemGroup>
 
   <ItemGroup>
