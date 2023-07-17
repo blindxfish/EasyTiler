@@ -245,9 +245,16 @@ namespace EasyTiler
                 double centerX = Canvas.GetLeft(rect) + rect.Width / 2;
                 double centerY = Canvas.GetTop(rect) + rect.Height / 2;
 
+                try
+                {
+
                 // Adjust the RenderTransformOrigin of the SourceImage
                 SourceImage.RenderTransformOrigin = new Point(centerX / SourceImage.ActualWidth, centerY / SourceImage.ActualHeight);
 
+                }catch (Exception ex)
+                {
+                    return;
+                }
                 var scaleFactorX = loadedImage.PixelWidth / SourceImage.ActualWidth;
                 var scaleFactorY = loadedImage.PixelHeight / SourceImage.ActualHeight;
 
