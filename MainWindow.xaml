@@ -13,7 +13,11 @@
         </Grid.ColumnDefinitions>
         <Slider Name="RotationSlider" Minimum="0" Maximum="360" ValueChanged="RotationSlider_ValueChanged" />
         <DockPanel LastChildFill="True" Margin="10,40,10,33">
-            <Image x:Name="SourceImage" Stretch="Uniform" />
+            <Image x:Name="SourceImage" Stretch="Uniform"  RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <RotateTransform x:Name="imageRotateTransform" Angle="0"/>
+                </Image.RenderTransform>
+            </Image>
         </DockPanel>
         <DockPanel LastChildFill="True" Margin="10,40,10,33" Background="White" Grid.Column="1">
             <Image x:Name="TiledImage" Stretch="Uniform" />

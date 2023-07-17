@@ -32,7 +32,9 @@ namespace EasyTiler
         };
 
         public TransformGroup transformGroup = new TransformGroup();
-
+      //  RotateTransform imageRotateTransform = new RotateTransform();
+     
+          
         Point startPoint, endPoint;
 
         RotateTransform rotateTransform = new RotateTransform();
@@ -41,7 +43,6 @@ namespace EasyTiler
         public MainWindow()
         {
             InitializeComponent();
-
 
             // Initialize the RotateTransform and assign it to the rectangle
             rotateTransform = new RotateTransform();
@@ -57,10 +58,26 @@ namespace EasyTiler
         }
         private void RotationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            rotateTransform.Angle = e.NewValue;
+            //  rotateTransform.Angle = e.NewValue;
+            imageRotateTransform.Angle = e.NewValue;
             UpdateTiledImage();
         }
 
+        private BitmapSource CaptureElement(UIElement element)
+        {
+            Size size = new Size(element.RenderSize.Width, element.RenderSize.Height);
+            if (size.IsEmpty)
+                return null;
+
+            RenderTargetBitmap result = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
+            DrawingVisual drawingvisual = new DrawingVisual();
+            using (DrawingContext context = drawingvisual.RenderOpen())
+            {
+                context.DrawRectangle(new VisualBrush(element), null, new Rect(new Point(), size));
+            }
+            result.Render(drawingvisual);
+            return result;
+        }
 
         private void Rect_MouseMove(object sender, MouseEventArgs e)
         {
@@ -190,9 +207,15 @@ namespace EasyTiler
 
         private void UpdateTiledImage()
         {
-            // Debug.Write("MouseUP ");
-            if (rect != null && loadedImage != null)
+            if (rect != null && SourceImage != null)
             {
+                // Calculate the center of the selection
+                double centerX = Canvas.GetLeft(rect) + rect.Width / 2;
+                double centerY = Canvas.GetTop(rect) + rect.Height / 2;
+
+                // Adjust the RenderTransformOrigin of the SourceImage
+                SourceImage.RenderTransformOrigin = new Point(centerX / SourceImage.ActualWidth, centerY / SourceImage.ActualHeight);
+
                 var scaleFactorX = loadedImage.PixelWidth / SourceImage.ActualWidth;
                 var scaleFactorY = loadedImage.PixelHeight / SourceImage.ActualHeight;
 
@@ -208,13 +231,13 @@ namespace EasyTiler
 
                 if (width > 5 && height > 5)
                 {
-
-                    loadedImage.CopyPixels(rect2, pixelData, stride, 0);
+                    // Capture the rendered image from the SourceImage
+                    BitmapSource rotatedImage = CaptureElement(SourceImage);
+                    rotatedImage.CopyPixels(rect2, pixelData, stride, 0);
 
                     var selectedImage = new WriteableBitmap(width, height, loadedImage.DpiX, loadedImage.DpiY, loadedImage.Format, null);
                     selectedImage.WritePixels(new Int32Rect(0, 0, width, height), pixelData, stride, 0);
 
-                    // Now selectedImage contains the selected part of the image.
                     // Calculate how many tiles we need in each direction.
                     var tilesX = loadedImage.PixelWidth / width;
                     var tilesY = loadedImage.PixelHeight / height;
@@ -228,34 +251,8 @@ namespace EasyTiler
                             var offsetX = tileX * width;
                             var offsetY = tileY * height;
 
-                            // Create a new DrawingVisual to draw the rotated tile
-                            // Create a new DrawingVisual to draw the rotated tile
-                            DrawingVisual drawingVisual = new DrawingVisual();
-                            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-                            {
-                                // Apply the transform to the drawing context
-                                drawingContext.PushTransform(new TranslateTransform(width / 2, height / 2));
-                                drawingContext.PushTransform(rotateTransform);
-                                drawingContext.PushTransform(new TranslateTransform(-width / 2, -height / 2));
-
-                                // Draw the selected image onto the DrawingVisual
-                                drawingContext.DrawImage(selectedImage, new Rect(0, 0, width, height));
-
-                                // Pop the transforms
-                                drawingContext.Pop();
-                                drawingContext.Pop();
-                                drawingContext.Pop();
-                            }
-                            // Render the result to a bitmap
-                            RenderTargetBitmap rotatedBitmap = new RenderTargetBitmap(width, height, loadedImage.DpiX, loadedImage.DpiY, PixelFormats.Default);
-                            rotatedBitmap.Render(drawingVisual);
-
-                            // Write the pixels from the rotated bitmap to the tiled image
-                            int innerStride = rotatedBitmap.PixelWidth * (rotatedBitmap.Format.BitsPerPixel + 7) / 8;
-                            byte[] innerPixelData = new byte[innerStride * rotatedBitmap.PixelHeight];
-                            rotatedBitmap.CopyPixels(innerPixelData, innerStride, 0);
-                            tiledImage.WritePixels(new Int32Rect(offsetX, offsetY, rotatedBitmap.PixelWidth, rotatedBitmap.PixelHeight), innerPixelData, innerStride, 0);
-
+                            // Write the pixels from the selected image to the tiled image
+                            tiledImage.WritePixels(new Int32Rect(offsetX, offsetY, width, height), pixelData, stride, 0);
                         }
                     }
 
